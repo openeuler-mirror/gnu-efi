@@ -7,11 +7,9 @@ Epoch:         1
 License:       BSD
 URL:           ftp://ftp.hpl.hp.com/pub/linux-ia64
 ExclusiveArch: x86_64 aarch64
-%ifarch x86_64
-BuildRequires: /usr/include/gnu/stubs-32.h
-%endif
 Source:        http://superb-dca2.dl.sourceforge.net/project/gnu-efi/gnu-efi-3.0.6.tar.bz2
-
+#stubs-32.h comes from http://www.gnu.org/software/glibc/
+Source1:       stubs-32.h
 
 Patch0001:     0001-PATCH-Disable-AVX-instruction-set-on-IA32-and-x86_64.patch
 Patch0002:     0002-Use-ARFLAGS-when-invoking-ar.patch
@@ -39,6 +37,7 @@ Patch0023:     0023-Call-ar-in-deterministic-mode.patch
 Patch0024:     0024-Add-debug-helper-applications.patch
 Patch0025:     0025-Bump-revision-from-VERSION-3.0.7-to-VERSION-3.0.8.patch
 
+Patch9000:     stubs-32-h.patch
 
 %global efidir %(eval echo $(grep ^ID= /etc/os-release | sed  's/^ID=//'))
 
