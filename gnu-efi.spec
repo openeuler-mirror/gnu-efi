@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 Name:          gnu-efi
 Version:       3.0.8
-Release:       4
+Release:       5
 Summary:       Development Libraries and headers for EFI
 Epoch:         1
 License:       BSD
@@ -38,6 +38,8 @@ applications that run under EFI (Extensible Firmware Interface).
 
 %prep
 %autosetup  -n gnu-efi-3.0.8 -p1
+install -d gnuefi/gnu
+install -Dp %{SOURCE1} gnuefi/gnu/
 
 %build
 make
@@ -74,6 +76,9 @@ mv ia32/apps/{route80h.efi,modelist.efi} %{buildroot}/boot/efi/EFI/%{efidir}/ia3
 %{_includedir}/efi
 
 %changelog
+* Fri Mar 13 2020 zhujunhao<zhujunhao5@huawei.com> - 3.0.8-5
+- Modify x86 build failed
+
 * Wed Jan 15 2020 yuxiangyang4<yuxiangyang4@huawei.com> - 3.0.8-4
 - Upgrade source code to 3.0.8
 
