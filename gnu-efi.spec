@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 Name:          gnu-efi
 Version:       3.0.8
-Release:       6
+Release:       7
 Summary:       Development Libraries and headers for EFI
 Epoch:         1
 License:       BSD
@@ -77,6 +77,9 @@ mv ia32/apps/{route80h.efi,modelist.efi} %{buildroot}/boot/efi/EFI/%{efidir}/ia3
 %{_includedir}/efi
 
 %changelog
+* Wed Mar 18 2020 likexin <likexin4@huawei.com> - 3.0.8-7
+- Fix up modify-cflags.patch
+
 * Wed Mar 18 2020 likexin <likexin4@huawei.com> - 3.0.8-6
 - Add cflags -fstack-protector-strong
 
