@@ -1,21 +1,22 @@
-diff -Nur gnu-efi-3.0.8.orig/Make.defaults gnu-efi-3.0.8-2/Make.defaults
+diff -Nur gnu-efi-3.0.8.orig/Make.defaults gnu-efi-3.0.8/Make.defaults
 --- gnu-efi-3.0.8.orig/Make.defaults	2018-03-15 02:54:51.000000000 +0800
-+++ gnu-efi-3.0.8-2/Make.defaults	2020-03-17 23:23:49.602158451 +0800
-@@ -87,7 +87,7 @@
- # Arch-specific compilation flags
- CPPFLAGS += -DCONFIG_$(ARCH)
++++ gnu-efi-3.0.8/Make.defaults	2020-03-18 15:33:04.818719470 +0800
+@@ -155,6 +155,9 @@
+ CFLAGS += -marm
+ endif
  
--CFLAGS += -Wno-error=pragmas
-+CFLAGS += -Wno-error=pragmas -fstack-protector-strong 
- 
- ifeq ($(ARCH),ia64)
-   CFLAGS += -mfixed-range=f32-f127
-@@ -168,16 +168,15 @@
++ifeq ($(ARCH),aarch64)
++CFLAGS += -fstack-protector-strong 
++endif
+ # Generic compilation flags
+ INCDIR  += -I$(SRCDIR) -I$(TOPDIR)/inc -I$(TOPDIR)/inc/$(ARCH) \
+            -I$(TOPDIR)/inc/protocol
+@@ -168,16 +171,18 @@
  ifeq (FreeBSD, $(findstring FreeBSD, $(OS)))
  CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
             -fshort-wchar -fno-strict-aliasing \
 -           -ffreestanding -fno-stack-protector
-+           -ffreestanding 
++           -ffreestanding -fno-stack-protector 
  else
  CFLAGS  += $(ARCH3264) -g -O2 -Wall -Wextra -Werror \
             -fshort-wchar -fno-strict-aliasing \
@@ -23,10 +24,13 @@ diff -Nur gnu-efi-3.0.8.orig/Make.defaults gnu-efi-3.0.8-2/Make.defaults
 -           -fno-stack-check \
 +	   -ffreestanding  \
             $(if $(findstring gcc,$(CC)),-fno-merge-all-constants,)
++ifneq ($(ARCH),aarch64)
++CFLAGS  += -fno-stack-protector -fno-stack-check
++endif
  endif
  
  ARFLAGS := rDv
  ASFLAGS += $(ARCH3264)
 -LDFLAGS	+= -nostdlib --warn-common --no-undefined --fatal-warnings \
-+LDFLAGS	+= -nostdlib --warn-common  --fatal-warnings \
++LDFLAGS	+= -nostdlib --warn-common --fatal-warnings \
  	   --build-id=sha1
