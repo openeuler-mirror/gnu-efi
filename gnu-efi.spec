@@ -1,13 +1,13 @@
 %define debug_package %{nil}
 Name:          gnu-efi
 Version:       3.0.8
-Release:       8
+Release:       9
 Summary:       Development Libraries and headers for EFI
 Epoch:         1
 License:       BSD
 URL:           ftp://ftp.hpl.hp.com/pub/linux-ia64
 ExclusiveArch: x86_64 aarch64
-Source:        http://superb-dca2.dl.sourceforge.net/project/gnu-efi/gnu-efi-3.0.8.tar.bz2
+Source0:       https://sourceforge.net/projects/gnu-efi/files/gnu-efi-3.0.8.tar.bz2
 #stubs-32.h comes from http://www.gnu.org/software/glibc/
 Source1:       stubs-32.h
 
@@ -76,6 +76,9 @@ mv ia32/apps/{route80h.efi,modelist.efi} %{buildroot}/boot/efi/EFI/%{efidir}/ia3
 %{_includedir}/efi
 
 %changelog
+* Tue Sep 15 2020 liuweibo <liuweibo10@huawei.com> - 3.0.8-9
+- Fix Source0
+
 * Wed Mar 18 2020 likexin <likexin4@huawei.com> - 3.0.8-8
 - Delete modify-cflags.patch
 
