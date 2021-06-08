@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 Name:          gnu-efi
 Version:       3.0.8
-Release:       9
+Release:       10
 Summary:       Development Libraries and headers for EFI
 Epoch:         1
 License:       BSD
@@ -22,6 +22,7 @@ Source1:       stubs-32.h
 
 Provides:  %{name}-utils = %{epoch}:%{version}-%{release}
 Obsoletes: %{name}-utils < %{epoch}:%{version}-%{release}
+BuildRequires:	gcc
 
 %description
 This package contains development headers and libraries for developing
@@ -76,6 +77,10 @@ mv ia32/apps/{route80h.efi,modelist.efi} %{buildroot}/boot/efi/EFI/%{efidir}/ia3
 %{_includedir}/efi
 
 %changelog
+* Mon Jun 7 2021 baizhonggui <baizhonggui@huawei.com> - 3.0.8-10
+- Fix building error: make[1]: gcc: No such file or directory
+- Add gcc in BuildRequires
+
 * Thu Sep 10 2020 liuweibo <liuweibo10@huawei.com> - 3.0.8-9
 - Fix Source0
 
