@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 Name:          gnu-efi
 Version:       3.0.8
-Release:       10
+Release:       11
 Summary:       Development Libraries and headers for EFI
 Epoch:         1
 License:       BSD
@@ -10,6 +10,7 @@ ExclusiveArch: x86_64 aarch64
 Source0:       https://sourceforge.net/projects/gnu-efi/files/gnu-efi-3.0.8.tar.bz2
 #stubs-32.h comes from http://www.gnu.org/software/glibc/
 Source1:       stubs-32.h
+Patch0:        fix-clang.patch
 
 %global efidir %(eval echo $(grep ^ID= /etc/os-release | sed  's/^ID=//'))
 
@@ -43,6 +44,9 @@ install -d gnuefi/gnu
 install -Dp %{SOURCE1} gnuefi/gnu/
 
 %build
+%if "%toolchain" == "clang"
+	export LDFLAGS='-z,relro -z,now'
+%endif
 make
 make apps
 %ifarch x86_64
@@ -77,6 +81,9 @@ mv ia32/apps/{route80h.efi,modelist.efi} %{buildroot}/boot/efi/EFI/%{efidir}/ia3
 %{_includedir}/efi
 
 %changelog
+* Tue May 16 2023 yoo <sunyuechi@iscas.ac.cn> - 3.0.8-11
+- fix clang build error
+
 * Mon Jun 7 2021 baizhonggui <baizhonggui@huawei.com> - 3.0.8-10
 - Fix building error: make[1]: gcc: No such file or directory
 - Add gcc in BuildRequires
